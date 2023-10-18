@@ -7,12 +7,12 @@
 //     number: '',
 //   };
 
-//   handlerChange = event => {
+//   handleChange = event => {
 //     const { name, value } = event.currentTarget;
 //     this.setState({ [name]: value });
 //   };
 
-//   handlerSubmit = event => {
+//   handleSubmit = event => {
 //     event.preventDefault();
 //     this.props.onSubmit(this.state);
 //     this.reset();
@@ -29,7 +29,7 @@
 //     const sampleNumber =
 //       '\\+?\\d{1,4}?[ .\\-\\s]?\\(?\\d{1,3}?\\)?[ .\\-\\s]?\\d{1,4}[ .\\-\\s]?\\d{1,4}[ .\\-\\s]?\\d{1,9}';
 //     return (
-//       <form className={css.formContact} onSubmit={this.handlerSubmit}>
+//       <form className={css.formContact} onSubmit={this.handleSubmit}>
 //         <label className={css.label}>
 //           Name
 //           <input
@@ -37,7 +37,7 @@
 //             type="text"
 //             name="name"
 //             value={name}
-//             onChange={this.handlerChange}
+//             onChange={this.handleChange}
 //             pattern={sampleName}
 //             required
 //           />
@@ -49,7 +49,7 @@
 //             type="tel"
 //             name="number"
 //             value={number}
-//             onChange={this.handlerChange}
+//             onChange={this.handleChange}
 //             pattern={sampleNumber}
 //             required
 //           />

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
 import { ContactForm } from '../ContactForm/ContactForm';
 import { ContactList } from '../ContactList/ContactList';
+// import { ContactForm } from '../ContactForm/ContactFormFirst';
 import { Filter } from '../Filter/Filter';
 import css from './App.module.css';
 
@@ -19,7 +20,7 @@ export class App extends Component {
   addNameContact = ({ name, number }) => {
     const contact = { id: nanoid(), name, number };
     const changeNameCase = name.toLowerCase();
-    const isExist = this.state.contacts.find(
+    const isExist = this.state.contacts.some(
       contact => contact.name.toLowerCase() === changeNameCase
     );
 
