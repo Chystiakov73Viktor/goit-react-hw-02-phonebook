@@ -1,63 +1,73 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as yup from 'yup';
 import css from './ContactForm.module.css';
 
-export class ContactForm extends Component {
-  state = {
-    name: '',
-    number: '',
+const FormError = ({ name }) => {
+  return (
+    <ErrorMessage
+      name={name}
+      render={msg => <p className={css.errorText}>{msg}</p>}
+    />
+  )
+}
+
+const schema = yup.object().shape({
+  name: yup.string().required(),
+  number: yup.string().min(7).max(20).required(),
+});
+
+const initialValues = {
+  name: '',
+  number: '',
+};
+
+export const ContactForm = ({ onSubmit }) => {
+  const handlerSubmit = (values, { resetForm }) => {
+    onSubmit(values);
+    resetForm();
   };
 
-  handlerChange = event => {
-    const { name, value } = event.currentTarget;
-    this.setState({ [name]: value });
-  };
+  const sampleName =
+    "^[a-zA-Zа-яА-Я]+(([' \\-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$";
+  const sampleNumber =
+    "\\+?\\d{1,4}?[ .\\-\\s]?\\(?\\d{1,3}?\\)?[ .\\-\\s]?\\d{1,4}[ .\\-\\s]?\\d{1,4}[ .\\-\\s]?\\d{1,9}";
 
-  handlerSubmit = event => {
-    event.preventDefault();
-    this.props.onSubmit(this.state);
-    this.reset();
-  };
-
-  reset = () => {
-    this.setState({ name: '', number: '' });
-  };
-
-  render() {
-    const { name, number } = this.state;
-    const sampleName =
-      "^[a-zA-Zа-яА-Я]+(([' \\-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$";
-    const sampleNumber =
-      '\\+?\\d{1,4}?[ .\\-\\s]?\\(?\\d{1,3}?\\)?[ .\\-\\s]?\\d{1,4}[ .\\-\\s]?\\d{1,4}[ .\\-\\s]?\\d{1,9}';
-    return (
-      <form className={css.formContact} onSubmit={this.handlerSubmit}>
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={schema}
+      onSubmit={handlerSubmit}
+    >
+      <Form className={css.formContact}>
         <label className={css.label}>
           Name
-          <input
+          <Field
             className={css.input}
             type="text"
             name="name"
-            value={name}
-            onChange={this.handlerChange}
+            placeholder="Enter your name"
             pattern={sampleName}
             required
           />
+          <FormError name="name" />
         </label>
         <label className={css.label}>
           Number
-          <input
+          <Field
             className={css.input}
             type="tel"
             name="number"
-            value={number}
-            onChange={this.handlerChange}
+            placeholder="+380 (xx) xxx xx xx"
             pattern={sampleNumber}
             required
           />
+          <FormError name="number" />
         </label>
         <button className={css.buttonContact} type="submit">
           Add contact
         </button>
-      </form>
-    );
-  }
-}
+      </Form>
+    </Formik>
+  );
+};
